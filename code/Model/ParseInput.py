@@ -46,6 +46,7 @@ def Parse():
                 for elem in lst_dir:
                     rec_path(path + "/" + elem)
             else:
+                print(path)
                 im = Image.open(path)
                 imageSizeW, imageSizeH = im.size
                 pixel = []
@@ -55,9 +56,12 @@ def Parse():
                 x_row = []
                 y_row = []
                 for i in range(0, len(pixel)):
-                    x_row.append(pixel[i][0] / 255)
-                X.append(x_row)
-                Y.append(dir_name.value)
+                    x_row.append(pixel[i][0] / 256)
+                    if(max(x_row) >= 1):
+                        print(max(x_row))
+                if(len(x_row) == 10000):
+                    X.append(x_row)
+                    Y.append(dir_name.value)
 
 
     rec_path('./Base')

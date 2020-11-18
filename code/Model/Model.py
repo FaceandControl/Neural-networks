@@ -51,12 +51,12 @@ class dlnet:
         self.Y = np.array(y).T
         self.Yh = np.zeros((1, self.Y.shape[1]))
         self.L = 2
-        self.dims = [40000, 20000, 14]
+        self.dims = [10000, 5000, 14]
         self.param = {}
         self.ch = {}
         self.grad = {}
         self.loss = []
-        self.lr = 0.3
+        self.lr = 0.003
         self.sam = self.Y.shape[1]
         #squared_errors = (self.Yh - self.Y) ** 2
         #self.Loss = np.sum(squared_errors)
@@ -113,10 +113,8 @@ class dlnet:
             Yh = self.forward() #, loss
             dloss  = self.backward()
 
-            if i % 500 == 0:
-                print("Cost after iteration %i:" % (i))
-                print(Yh)
-                print(dloss)
-                #self.loss.append(loss)
-
+            print("Cost after iteration %i:" % (i))
+            print(Yh)
+            print(dloss)
+            #self.loss.append(loss)
         return
