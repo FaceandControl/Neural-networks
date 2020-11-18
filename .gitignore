@@ -1,3 +1,5 @@
 code/venv/
 code/.idea/
 code/Model/__pycache__/
+code/View/__pycache__/
+code/Controller/__pycache__/

@@ -1,11 +1,11 @@
 import numpy as np
-#import pandas as pd
+# import pandas as pd
 
-#import matplotlib.pyplot as plt
-#from sklearn import preprocessing
-#from sklearn.preprocessing import MinMaxScaler
-#from sklearn import metrics
-#from sklearn.metrics import confusion_matrix
+# import matplotlib.pyplot as plt
+# from sklearn import preprocessing
+# from sklearn.preprocessing import MinMaxScaler
+# from sklearn import metrics
+# from sklearn.metrics import confusion_matrix
 
 import itertools
 
@@ -22,11 +22,14 @@ def softmax_grad(softmax):
     d = np.diagflat(s) - np.dot(s, s.T)
     return d.diagonal().reshape(2, 1).T
 
+
 def tanh(z):
     return (np.exp(z) - np.exp(-z)) / (np.exp(z) + np.exp(-z))
 
+
 def tanh_der(z):
     return 1 - np.power(z, 2)
+
 
 def Sigmoid(Z):
     return 1 / (1 + np.exp(-Z))
@@ -37,13 +40,16 @@ def Relu(Z):
 
 
 def dRelu(x):
-    x[x<0] = 0
-    x[x>0] = 1
+    x[x < 0] = 0
+    x[x > 0] = 1
     return x
+
+
 def dSigmoid(Z):
-    s = 1/(1+np.exp(-Z))
-    dZ = s * (1-s)
+    s = 1 / (1 + np.exp(-Z))
+    dZ = s * (1 - s)
     return dZ
+
 
 class dlnet:
     def __init__(self, x, y):
@@ -54,12 +60,8 @@ class dlnet:
         self.dims = [10000, 5000, 14]
         self.param = {}
         self.ch = {}
-        self.grad = {}
-        self.loss = []
         self.lr = 0.003
         self.sam = self.Y.shape[1]
-        #squared_errors = (self.Yh - self.Y) ** 2
-        #self.Loss = np.sum(squared_errors)
 
     def nInit(self):
         np.random.seed(1)
@@ -78,11 +80,11 @@ class dlnet:
         A2 = Sigmoid(Z2)
         self.ch['Z2'], self.ch['A2'] = Z2, A2
         self.Yh = A2
-        #loss = self.nloss(A2)
-        return self.Yh#, loss
 
-    def nloss(self,Yh):
-        loss = (1./self.sam) * (-np.dot(self.Y, np.log(Yh).T) - np.dot(1-self.Y, np.log(1-Yh).T))
+        return self.Yh
+
+    def nloss(self, Yh):
+        loss = (1. / self.sam) * (-np.dot(self.Y, np.log(Yh).T) - np.dot(1 - self.Y, np.log(1 - Yh).T))
         return loss
 
     def backward(self):
@@ -110,11 +112,10 @@ class dlnet:
         self.nInit()
 
         for i in range(0, iter):
-            Yh = self.forward() #, loss
-            dloss  = self.backward()
+            Yh = self.forward()
+            dloss = self.backward()
 
             print("Cost after iteration %i:" % (i))
             print(Yh)
             print(dloss)
-            #self.loss.append(loss)
         return

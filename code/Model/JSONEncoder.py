@@ -1,11 +1,14 @@
 import json
 import numpy as np
 from Model.Model import dlnet
-#from main import nn
+
+
+# from main import nn
 
 
 class NumpyEncoder(json.JSONEncoder):
     """ Special json encoder for numpy types """
+
     def default(self, obj):
         if isinstance(obj, np.integer):
             return int(obj)
@@ -15,20 +18,21 @@ class NumpyEncoder(json.JSONEncoder):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
 
+
 def Read(nn):
     f = open("preparation_data.json", "r")
     parsed_json = json.loads(f.read())
-    nn.X = parsed_json["X"]
-    nn.Y = parsed_json["Y"]
-    nn.Yh = parsed_json["Yh"]
-    nn.L = parsed_json["L"]
-    nn.dims = parsed_json["dims"]
-    nn.param = parsed_json["param"]
-    nn.ch = parsed_json["ch"]
-    nn.grad = parsed_json["grad"]
-    nn.loss = parsed_json["loss"]
-    nn.lr = parsed_json["lr"]
-    nn.sam = parsed_json["sam"]
+    nn.param = dict(parsed_json["param"])
+    nn.ch = dict(parsed_json["ch"])
+    nn.ch["Z1"] = np.array(nn.ch["Z1"])
+    nn.ch["Z1"] = np.array(nn.ch["Z1"])
+    nn.ch["A1"] = np.array(nn.ch["A1"])
+    nn.ch["A2"] = np.array(nn.ch["A2"])
+    nn.param["W1"] = np.array(nn.param["W1"])
+    nn.param["W2"] = np.array(nn.param["W2"])
+    nn.param["b1"] = np.array(nn.param["b1"])
+    nn.param["b2"] = np.array(nn.param["b2"])
+
 
 def Write(nn):
     json_object = json.dumps(nn.__dict__, cls=NumpyEncoder)

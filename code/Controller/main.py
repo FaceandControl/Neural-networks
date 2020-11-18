@@ -1,25 +1,28 @@
 import Model.ParseInput as prs
 
-#from View.View import View
+from View.View import View
 from Model.JSONEncoder import Write, Read
 from Model.Model import dlnet
 
+Yh = []
+
+view = View()
+
 def Debug():
-    x, y = prs.Parse()
-    print("before init")
+    x, y = prs.Parse("training")
     nn = dlnet(x, y)
-    print("after init")
-    nn.gd(x, y, iter=0)
-    print("after train")
+    nn.gd(x, y, iter=1)
     Write(nn)
 
 def Release():
-    x = prs.Parse()
-    nn = dlnet(x, x)
+    x, y = prs.Parse("check")
+
+    nn = dlnet(x, y)
     Read(nn)
     Yh = nn.forward()
+    view = View()
 
-#view = View()
+
 
 info = input()
 if(info == "0"):

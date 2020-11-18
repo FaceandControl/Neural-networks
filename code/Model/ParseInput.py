@@ -3,17 +3,15 @@ from Model.EnumPerson import EnumPerson
 import numpy as np
 import os
 
-def Parse():
 
+def Parse(target):
     X = []
     Y = []
 
     dir_name = EnumPerson
 
-
     def rec_path(path):
-        if os.path.basename(path) != "origin" and \
-                os.path.basename(path) != "check":
+        if os.path.basename(path) != "origin":
             global dir_name
             if os.path.isdir(path):
                 lst_dir = os.listdir(path)
@@ -57,12 +55,11 @@ def Parse():
                 y_row = []
                 for i in range(0, len(pixel)):
                     x_row.append(pixel[i][0] / 256)
-                    if(max(x_row) >= 1):
+                    if (max(x_row) >= 1):
                         print(max(x_row))
-                if(len(x_row) == 10000):
+                if (len(x_row) == 10000):
                     X.append(x_row)
                     Y.append(dir_name.value)
 
-
-    rec_path('./Base')
+    rec_path('./Base/' + target)
     return X, Y

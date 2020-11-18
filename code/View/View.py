@@ -17,7 +17,8 @@ myDict = dict([
     (u'sofia_vergara', 45),
     (u'will_smith', 25)
 ])
-path = "G:\Photoshop\\faces\origin\\anne_hathaway\\bmp\\1.bmp"
+path = "D:\\Visual Studio Projects\\Neural-networks\\Neural-networks\\code\\Base\\training\\anne_hathaway\\bmp\\1.bmp"
+
 
 def get_dict(adict):
     return '\n'.join('%s %s' % t for t in adict.items())
@@ -30,6 +31,7 @@ class View:
         self._textboxresults = self._set_results()
         self._textbox_mainresult = self._set_mainresult()
         self.button = self._set_button()
+
         #
         self.show_main_result("arnold_schwarzenegger")
         self.show_results(myDict)
