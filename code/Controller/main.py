@@ -6,28 +6,28 @@ from Model.Model import dlnet
 
 Yh = []
 
-view = View()
 
 def Debug():
-    x, y = prs.Parse("training")
+    x, y, path = prs.Parse("training")
     nn = dlnet(x, y)
-    nn.gd(x, y, iter=1)
+    nn.gd(x, y, iter=10000)
     Write(nn)
 
 def Release():
-    x, y = prs.Parse("check")
+    x, y, path = prs.Parse("check")
 
     nn = dlnet(x, y)
     Read(nn)
     Yh = nn.forward()
-    view = View()
+    Yh *= 100
+    view = View(Yh, path)
 
 
 
-info = input()
+info = input("Debug - 0 or Release - 1:")
 if(info == "0"):
     Debug()
-elif(info == "1"):
+if(info == "1"):
     Release()
 
 

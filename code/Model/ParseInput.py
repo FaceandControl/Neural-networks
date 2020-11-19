@@ -1,7 +1,8 @@
 from PIL import Image
 from Model.EnumPerson import EnumPerson
-import numpy as np
 import os
+
+list_ph = []
 
 
 def Parse(target):
@@ -9,6 +10,11 @@ def Parse(target):
     Y = []
 
     dir_name = EnumPerson
+
+    def resize_image(input_image_path, size):
+        original_image = Image.open(input_image_path)
+        resized_image = original_image.resize(size)
+        resized_image.save(input_image_path)
 
     def rec_path(path):
         if os.path.basename(path) != "origin":
@@ -21,6 +27,8 @@ def Parse(target):
                     dir_name = EnumPerson.ARNOLD
                 elif os.path.basename(path) == "ben_afflek":
                     dir_name = EnumPerson.BEN_AFFLIEK
+                elif os.path.basename(path) == "dwayne_johnson":
+                    dir_name = EnumPerson.DWAYNE_JOHNS
                 elif os.path.basename(path) == "elton_john":
                     dir_name = EnumPerson.ELTON_JOHN
                 elif os.path.basename(path) == "jerry_seinfeld":
@@ -44,7 +52,6 @@ def Parse(target):
                 for elem in lst_dir:
                     rec_path(path + "/" + elem)
             else:
-                print(path)
                 im = Image.open(path)
                 imageSizeW, imageSizeH = im.size
                 pixel = []
@@ -52,14 +59,14 @@ def Parse(target):
                     for j in range(0, imageSizeH):
                         pixel.append(im.getpixel((i, j)))
                 x_row = []
-                y_row = []
                 for i in range(0, len(pixel)):
-                    x_row.append(pixel[i][0] / 256)
-                    if (max(x_row) >= 1):
-                        print(max(x_row))
-                if (len(x_row) == 10000):
+                    x_row.append(pixel[i][0] / 256.0)
+                if len(x_row) == 10000:
+                    global list_ph
                     X.append(x_row)
                     Y.append(dir_name.value)
+                    list_ph.append(path)
 
     rec_path('./Base/' + target)
-    return X, Y
+
+    return X, Y, list_ph
